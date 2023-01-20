@@ -11,6 +11,11 @@ users = Blueprint('users', __name__, url_prefix='/users')
 ### RECUPERER TOUS LES UTILISATEURS
 @users.route('/', methods=['GET'])
 def users_home():
+    """
+    This route is used to get a list of all users in the database.
+    
+    :return: A JSON response containing a list of all users.
+    """
     try:
         conn = pyConnect()
         cursor= conn.cursor()
@@ -32,6 +37,12 @@ def users_home():
 ### RECUPERER UN UTILISATEUR
 @users.route('/<int:id>', methods=['GET'])
 def users_details(id):
+    """
+    This route is used to get the details of a single user.
+    
+    :param id: The ID of the user.
+    :return: A JSON response containing the details of the user.
+    """
     try:
         conn = pyConnect()
         cursor= conn.cursor()
@@ -51,6 +62,19 @@ def users_details(id):
 ### UPDATE D'UN UTILISATEUR
 @users.route('/<int:id>', methods=['PUT'])
 def users_update(id):
+    """
+    This route is used to update the details of a single user.
+    Some fields are required in the request body.
+    
+    :field fullname: The fullname of the user.
+    :field username: The username of the user.
+    :field email: The email of the user.
+    :field password: The password of the user.
+    :field img_link: The link related to user's image.
+    :field bio: The bio of the user.
+    :param id: The ID of the user.
+    :return: A JSON response containing the updated details of the user.
+    """
     received_data = request.get_json()
     required_field = {'fullname', 'username', 'email', 'password', 'img_link', 'bio'}
     if isRequired(required_field, received_data):
